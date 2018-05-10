@@ -4,10 +4,12 @@
 # player 2 plays randomly
 import random
 import numpy as np
+from matplotlib import pyplot as plt
 
 n = 88  # pile size
 pile = [0]*n  # nucleotide pile
 R = np.zeros(n)  # strategy array 1 indicates winning position 0 indicates losing position
+data = np.array([n-1])
 
 
 def winning_strategy():
@@ -53,18 +55,27 @@ def player_2(i):
 
 
 winning_strategy()  # build strategy matrix
-# print(R)
 
-game_index = n - 1  # create index that updates with every round /points at last nucleotide of the list
+pile_index = n - 1  # create index that updates with every round /points at last nucleotide of the list
 
 while True:
-    move = player_1(game_index)  # store the index_move
-    game_index = game_index - move  # update index
-    if game_index == 0:  # if no nucleotides left in the pile /means player did the last possible move
+    move = player_1(pile_index)  # store the index_move
+    pile_index = pile_index - move  # update index
+    data = np.vstack((data, pile_index))
+    if pile_index == 0:  # if no nucleotides left in the pile /means player did the last possible move
         print('Player 1 Won')
         break
-    move = player_2(game_index)
-    game_index = game_index - move
-    if game_index == 0:
+    move = player_2(pile_index)
+    pile_index = pile_index - move
+    data = np.vstack((data, pile_index))
+    if pile_index == 0:
         print('Player 2 Won')
         break
+
+
+x = data.T
+plt.suptitle('Index of last nucleotide of pile after every move', fontsize=16)
+plt.xlabel('Pile', fontsize=14)
+plt.plot(x, 0, 'o-', color='blue')
+plt.grid()
+plt.show()

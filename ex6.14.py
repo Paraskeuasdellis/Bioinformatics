@@ -6,7 +6,7 @@ import random
 import numpy as np
 from matplotlib import pyplot as plt
 
-n = 400  # pile A size
+n = 20  # pile A size
 m = 400  # pile B size
 pileA = [0]*n
 pileB = [0]*m
@@ -99,7 +99,7 @@ while True:
 
 
 x, y = data.T
-plt.suptitle('Size of both piles after each players move', fontsize=16)
+plt.suptitle('Index of last nucleotide for both piles after every move', fontsize=16)
 plt.xlabel('Pile A', fontsize=14)
 plt.ylabel('Pile B', fontsize=14)
 plt.plot(x, y, 'o-')
