@@ -2,17 +2,17 @@ normal_seq = 'ATAGCTC'
 infected_seq = 'AAATAAAGGGGCCCCCTTTTTTTCC'
 offset = 0
 inter_seq = ''
-skip = False
+skip = 0
 for i in range(len(normal_seq)):
-    if skip:
-        skip = False
+    if skip > 0:
+        skip -= 1
         continue
     sub_n = normal_seq[i]
     sub_i = ''
     for ii in range(i+1, len(normal_seq)):
         if sub_n[0] == normal_seq[ii]:
             sub_n += normal_seq[ii]
-            skip = True
+            skip += 1
         else:
             break
     for j in range(offset, len(infected_seq)):
@@ -23,5 +23,5 @@ for i in range(len(normal_seq)):
     offset += len(sub_i)
     inter_seq += sub_i
     print(sub_n + ' -: ' + sub_i)
-    print(inter_seq + normal_seq[i+1:])
+    print(inter_seq + normal_seq[i+len(sub_n):])
     print('----------------')
