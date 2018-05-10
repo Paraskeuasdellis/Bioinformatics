@@ -4,12 +4,14 @@
 # player 2 plays randomly
 import random
 import numpy as np
+from matplotlib import pyplot as plt
 
-n = 90  # pile A size
-m = 90  # pile B size
+n = 400  # pile A size
+m = 400  # pile B size
 pileA = [0]*n
 pileB = [0]*m
 R = np.zeros((n, m))  # strategy array 1 indicates winning position 0 indicates losing position
+data = np.array([n-1, m-1])
 
 
 def winning_strategy():
@@ -72,7 +74,6 @@ def player_2(i, j):
 
 
 winning_strategy()
-# print(R)
 
 index_pileA = n - 1
 index_pileB = m - 1
@@ -83,6 +84,7 @@ while True:
         move = player_1(index_pileA, index_pileB)
         index_pileA = index_pileA - move[0]
         index_pileB = index_pileB - move[1]
+        data = np.vstack((data, (index_pileA, index_pileB)))
     else:
         print("Player 1 won")
         break
@@ -90,7 +92,19 @@ while True:
         move = player_2(index_pileA, index_pileB)
         index_pileA = index_pileA - move[0]
         index_pileB = index_pileB - move[1]
+        data = np.vstack((data, (index_pileA, index_pileB)))
     else:
         print("Player 2 won")
         break
-# gia mikres stives an o player 1 ksekinaei apo losing pos uparxei pithanothta na xasei
+
+
+x, y = data.T
+plt.suptitle('Size of both piles after each players move', fontsize=16)
+plt.xlabel('Pile A', fontsize=14)
+plt.ylabel('Pile B', fontsize=14)
+plt.plot(x, y, 'o-')
+plt.grid()
+plt.show()
+
+
+
