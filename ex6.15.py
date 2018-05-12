@@ -6,7 +6,7 @@ import random
 import numpy as np
 from matplotlib import pyplot as plt
 
-n = 88  # pile size
+n = 2000  # pile size
 pile = [0]*n  # nucleotide pile
 R = np.zeros(n)  # strategy array 1 indicates winning position 0 indicates losing position
 data = np.array([n-1])
@@ -22,8 +22,6 @@ def winning_strategy():
 
 
 def player_1(i):
-    index_move = 0  # it is equal to the nucleotides player will delete
-
     if R[i] == 1 and R[i-1] == 1:  # if current and next are winning pos delete 2 so opponent end up losing
         del pile[i], pile[i - 1]
         index_move = 2
@@ -42,8 +40,6 @@ def player_1(i):
 
 
 def player_2(i):
-    index_move = 0
-
     choice = random.uniform(0, 1)  # pick a float between 0 and 1
     if choice > 0.5:  # give equal chances for the possible moves
         del pile[i]
@@ -53,6 +49,13 @@ def player_2(i):
         index_move = 2
     return index_move
 
+
+if n == 0:
+    print('No one wins')
+    quit()
+elif n < 3:
+    print('Player 1 won')  # player1 starts first so he will take 1 or 2 to win
+    quit()
 
 winning_strategy()  # build strategy matrix
 
@@ -71,7 +74,6 @@ while True:
     if pile_index == 0:
         print('Player 2 Won')
         break
-
 
 x = data.T
 plt.suptitle('Index of last nucleotide of pile after every move', fontsize=16)

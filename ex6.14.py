@@ -6,8 +6,8 @@ import random
 import numpy as np
 from matplotlib import pyplot as plt
 
-n = 20  # pile A size
-m = 400  # pile B size
+n = 10  # pile A size
+m = 10  # pile B size
 pileA = [0]*n
 pileB = [0]*m
 R = np.zeros((n, m))  # strategy array 1 indicates winning position 0 indicates losing position
@@ -33,9 +33,6 @@ def winning_strategy():
 
 
 def player_1(i, j):
-    index_a = 0  # it is equal to the nucleotides player will delete from each pile
-    index_b = 0
-
     if R[i-2][j-1] == 0:  # if next move leads to losing position for enemy delete according movement
         del pileA[i], pileA[i-1], pileB[j]
         index_a = 2
@@ -58,9 +55,6 @@ def player_1(i, j):
 
 
 def player_2(i, j):
-    index_a = 0
-    index_b = 0
-
     choice = random.uniform(0, 1)  # pick a float between 0 and 1
     if choice > 0.5:  # give equal chances for the possible moves
         del pileA[i], pileA[i - 1], pileB[j]
@@ -73,11 +67,19 @@ def player_2(i, j):
     return index_a, index_b
 
 
+if (n < 2 and m < 2) or (n == 0 or m == 0):
+    print('Always wins the first player, no move possible')
+    quit()
+elif (n == 1 and m >= 2) or (n >= 2 and m == 1):
+    print('Always wins the second player')
+    quit()
+
+
 winning_strategy()
+print(R)
 
 index_pileA = n - 1
 index_pileB = m - 1
-
 
 while True:
     if (index_pileA >= 2 and index_pileB >= 1) or (index_pileA >= 1 and index_pileB >= 2):
@@ -97,7 +99,6 @@ while True:
         print("Player 2 won")
         break
 
-
 x, y = data.T
 plt.suptitle('Index of last nucleotide for both piles after every move', fontsize=16)
 plt.xlabel('Pile A', fontsize=14)
@@ -105,6 +106,3 @@ plt.ylabel('Pile B', fontsize=14)
 plt.plot(x, y, 'o-')
 plt.grid()
 plt.show()
-
-
-

@@ -54,35 +54,33 @@ def traceback():
         maxval = max(trace_back[(z-1)*len(seq1)+w-1])
         # Finding if maxval comes horizontally,vertically or diagonally for k<2
         if k < 2:
-
-            if maxval == trace_back[(z-1)*len(seq1)+w-1][0]  :
+            if maxval == trace_back[(z-1)*len(seq1)+w-1][0]:
                 alignseq1 += seq1[w-1]
-                alignseq2 += '_'
+                alignseq2 += '-'
                 w = w-1
                 k += 1
 
-            elif maxval == trace_back[(z-1)*len(seq1)+w-1][1]  :
-                alignseq1 += '_'
+            elif maxval == trace_back[(z-1)*len(seq1)+w-1][1]:
+                alignseq1 += '-'
                 alignseq2 += seq2[z-1]
                 z = z - 1
                 k += 1
+
             # k = 0 if we insert at both sequences
-            elif maxval == trace_back[(z-1)*len(seq1)+w-1][2] :
+            elif maxval == trace_back[(z-1)*len(seq1)+w-1][2]:
                 alignseq1 += seq1[w-1]
                 alignseq2 += seq2[z-1]
-
                 z = z - 1
                 w = w - 1
                 k = 0
+
         # if k >= 2 we insert at both sequences and make k = 0
         else:
             alignseq1 += seq1[w - 1]
             alignseq2 += seq2[z - 1]
-
             z = z - 1
             w = w - 1
             k = 0
-
     print(alignseq1)
     print(alignseq2)
 
