@@ -6,78 +6,84 @@ import random
 import numpy as np
 from matplotlib import pyplot as plt
 
-n = 2000  # pile size
-pile = [0]*n  # nucleotide pile
-R = np.zeros(n)  # strategy array 1 indicates winning position 0 indicates losing position
-data = np.array([n-1])
+sequence = []  # contains nucleotide sequence
+count = 0  # used to count the total moves
 
 
-def winning_strategy():
-    R[0], R[1], R[2] = 0, 1, 1  # if pile has 1 or 2 nucleotides left he wins /0 loses
-    for i in range(3, n):
-        if R[i-1] == 1 and R[i-2] == 1:
-            R[i] = 0
-        else:
-            R[i] = 1
+def convert_data_to_list():
+    file = open('6.15-6.27.fasta')
+    f_data = file.read()
+    split_data = f_data.splitlines()  # splitlines to remove white spaces and \n chars
+    data_len = len(split_data)  # number of sub sequences
+    for i in range(1, data_len):  # ignore header
+        sequence.extend(list(split_data[i]))  # list every sub list
 
 
-def player_1(i):
-    if R[i] == 1 and R[i-1] == 1:  # if current and next are winning pos delete 2 so opponent end up losing
-        del pile[i], pile[i - 1]
+def player_1():
+    if index % 3 == 2:  # player is at winning position and needs to delete two nucleotide to send enemy to losing pos
+        #del pile[index], pile[index - 1]
         index_move = 2
-    elif R[i] == 1 and R[i-1] == 0:  # if current pos is winning and next losing delete 1
-        del pile[i]
+    elif index % 3 == 1:
+        #del pile[index], pile[index - 1]
         index_move = 1
-    elif R[i] == 0:  # else pick randomly (like player2)
+    elif index % 3 == 0:  # player is at losing position so he picks randomly
         choice = random.uniform(0, 1)
         if choice > 0.5:
-            del pile[i]
+            #del pile[index]
             index_move = 1
         else:
-            del pile[i], pile[i - 1]
+            #del pile[index], pile[index - 1]
             index_move = 2
     return index_move
 
 
-def player_2(i):
+def player_2():
     choice = random.uniform(0, 1)  # pick a float between 0 and 1
     if choice > 0.5:  # give equal chances for the possible moves
-        del pile[i]
+        #del pile[index]
         index_move = 1
     else:
-        del pile[i], pile[i-1]
+        #del pile[index], pile[index - 1]
         index_move = 2
     return index_move
 
 
-if n == 0:
+convert_data_to_list()
+n = len(sequence)  # number of nucleotides
+index = n - 1  # index to point at list after every round
+data = np.array([n-1, count])
+
+
+if index == 0:  # if there is only one nucleotide
+    print('First player loses')
+    quit()
+if n == 0:  # if there are no nucleotides
     print('No one wins')
     quit()
-elif n < 3:
-    print('Player 1 won')  # player1 starts first so he will take 1 or 2 to win
-    quit()
 
-winning_strategy()  # build strategy matrix
-
-pile_index = n - 1  # create index that updates with every round /points at last nucleotide of the list
 
 while True:
-    move = player_1(pile_index)  # store the index_move
-    pile_index = pile_index - move  # update index
-    data = np.vstack((data, pile_index))
-    if pile_index == 0:  # if no nucleotides left in the pile /means player did the last possible move
+    move = player_1()  # store the index_move
+    count = count + 1  # update counter after each move
+    index = index - move  # update index
+    data = np.vstack((data, (index, count)))  # update array to plot
+    if index == 0:  # if no nucleotides left in the pile /means player did the last possible move
         print('Player 1 Won')
         break
-    move = player_2(pile_index)
-    pile_index = pile_index - move
-    data = np.vstack((data, pile_index))
-    if pile_index == 0:
+    move = player_2()
+    count = count + 1
+    index = index - move
+    data = np.vstack((data, (index, count)))
+    if index == 0:
         print('Player 2 Won')
         break
 
-x = data.T
+# plot the game
+x, y = data.T
 plt.suptitle('Index of last nucleotide of pile after every move', fontsize=16)
-plt.xlabel('Pile', fontsize=14)
-plt.plot(x, 0, 'o-', color='blue')
+plt.xlabel('Nucleotide Sequence', fontsize=14)
+plt.ylabel('Move', fontsize=14)
+plt.plot(x, y, 'o-', color='blue')
 plt.grid()
 plt.show()
+quit()
