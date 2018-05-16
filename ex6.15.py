@@ -11,7 +11,7 @@ count = 0  # used to count the total moves
 
 
 def convert_data_to_list():
-    file = open('6.15-6.27.fasta')
+    file = open('data/6.15-6.27.fasta')
     f_data = file.read()
     split_data = f_data.splitlines()  # splitlines to remove white spaces and \n chars
     data_len = len(split_data)  # number of sub sequences
