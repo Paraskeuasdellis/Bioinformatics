@@ -67,7 +67,7 @@ def traceback():
     w = len(seq1)
     alignseq1 = ''
     alignseq2 = ''
-    for i in range(max(len(seq1), len(seq2))):
+    while z>0 and w>0:
 
         maxval = max(trace_back[(z-1)*len(seq1)+w-1])
         # Finding if maxval comes horizontally,vertically or diagonally for k<2
