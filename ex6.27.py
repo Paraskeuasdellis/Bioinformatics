@@ -1,11 +1,29 @@
 import numpy as np
 
+seq1 = []
+#seq1.append('.')
+file = open('data/6.27.fasta')
+data = file.read()
+split_data = data.splitlines()
+data_len = len(split_data)
+for i in range(1, data_len):  # ignore header
+    seq1.extend(list(split_data[i]))
+
+seq2 = []
+#seq2.append('.')
+file = open('data/6.15-6.27.fasta')
+data = file.read()
+split_data = data.splitlines()
+data_len = len(split_data)
+for i in range(1, data_len):  # ignore header
+    seq2.extend(list(split_data[i]))
+
 # 2 random DNA sequences
-seq1 = ['.', 'T', 'G', 'C', 'G', 'G', 'C', 'A', 'T', 'G', 'G', 'C', 'C', 'C', 'T', 'A', 'T', 'T', 'A', 'G', 'C', 'T',
-        'A', 'A', 'A', 'G', 'G', 'C', 'A', 'T', 'G', 'C', 'C', 'T', 'T', 'A', 'A', 'A', 'A', 'G', 'T', 'C', 'G', 'T',
-        'G', 'A', 'A', 'T', 'C']
-seq2 = ['.', 'G', 'G', 'C', 'A', 'G', 'C', 'T', 'A', 'G', 'T', 'C', 'C', 'C', 'A', 'A',
-        'G', 'T', 'T', 'C', 'C', 'A', 'A']
+#seq1 = ['.', 'T', 'G', 'C', 'G', 'G', 'C', 'A', 'T', 'G', 'G', 'C', 'C', 'C', 'T', 'A', 'T', 'T', 'A', 'G', 'C', 'T',
+#        'A', 'A', 'A', 'G', 'G', 'C', 'A', 'T', 'G', 'C', 'C', 'T', 'T', 'A', 'A', 'A', 'A', 'G', 'T', 'C', 'G', 'T',
+#        'G', 'A', 'A', 'T', 'C']
+#seq2 = ['.', 'G', 'G', 'C', 'A', 'G', 'C', 'T', 'A', 'G', 'T', 'C', 'C', 'C', 'A', 'A',
+#        'G', 'T', 'T', 'C', 'C', 'A', 'A']
 
 # Matrix to be filled with scores
 score_matrix = np.zeros((len(seq2)+1, len(seq1)+1))
