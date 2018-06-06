@@ -1,5 +1,5 @@
-# 2 players nim game with 1 pile /wins the one that takes the last nucleotide
-# in every round each player chooses either one or two from the pile
+# 2 players nim game with 1 sequence /wins the one that takes the last nucleotide
+# in every round each player removes either one or two from the sequence
 # player 1 plays with winning strategy
 # player 2 plays randomly
 import random
@@ -8,6 +8,8 @@ from matplotlib import pyplot as plt
 
 sequence = []  # contains nucleotide sequence
 count = 0  # used to count the total moves
+
+PLOT_RESULT = 1  # plot whole game 0/1
 
 
 def convert_data_to_list():
@@ -73,12 +75,13 @@ while True:
     data = np.vstack((data, (index, count)))
 
 
-# plot the game
-x, y = data.T
-plt.suptitle('Index of last nucleotide of pile after every move', fontsize=16)
-plt.xlabel('Nucleotide Sequence', fontsize=14)
-plt.ylabel('Move', fontsize=14)
-plt.plot(x, y, 'o-', color='blue')
-plt.grid()
-plt.show()
-quit()
+if PLOT_RESULT == 1:
+    x, y = data.T
+    plt.suptitle('Index of last nucleotide of sequence after every move', fontsize=16)
+    plt.xlabel('Move', fontsize=14)
+    plt.ylabel('Nucleotide Sequence', fontsize=14)
+    plt.plot(y, x, 'o-')
+    plt.grid()
+    plt.show()
+else:
+    quit()
