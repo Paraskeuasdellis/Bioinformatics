@@ -17,17 +17,17 @@ def normal_sequence():
             else:
                 break
         if sub_seq[0] == 'A':
-            if len(sub_seq) % 5 == 0:
-                new_seq += 'A'*(len(sub_seq) // 5)
+            if len(sub_seq) % 6 == 0:
+                new_seq += 'A'*(len(sub_seq) // 6)
             else:
-                new_seq += 'A'*((len(sub_seq) // 5) + 1)
+                new_seq += 'A'*((len(sub_seq) // 6) + 1)
         elif sub_seq[0] == 'C':
-            if len(sub_seq) % 10 == 0:
-                new_seq += 'C' * (len(sub_seq) // 10)
+            if len(sub_seq) % 11 == 0:
+                new_seq += 'C' * (len(sub_seq) // 11)
             else:
-                new_seq += 'C' * ((len(sub_seq) // 10) + 1)
+                new_seq += 'C' * ((len(sub_seq) // 11) + 1)
         else:
-            r = random.randint(3, 10)
+            r = random.randint(6, 11)
             if len(sub_seq) % r == 0:
                 new_seq += sub_seq[0] * (len(sub_seq) // r)
             else:
@@ -35,8 +35,8 @@ def normal_sequence():
     return new_seq
 
 
-normal_seq = normal_sequence() #'ATAGCTC'
-infected_seq = open('data/6.37.fasta').read() #'AAATAAAGGGGCCCCCTTTTTTTCC'
+normal_seq = normal_sequence()
+infected_seq = open('data/6.37.fasta').read()
 offset = 0
 inter_seq = ''
 skip = 0
@@ -60,5 +60,6 @@ for i in range(len(normal_seq)):
     offset += len(sub_i)
     inter_seq += sub_i
     print(sub_n + ' -: ' + sub_i)
-    print('...' + inter_seq[len(inter_seq)-18:] + '|' + normal_seq[i+len(sub_n):i+len(sub_n)+18] + '...')
+    print('...' + inter_seq[len(inter_seq)-min(18, len(inter_seq)):] + '|'
+          + normal_seq[i+len(sub_n):i+len(sub_n)+18] + '...')
     print('-------------------------------')

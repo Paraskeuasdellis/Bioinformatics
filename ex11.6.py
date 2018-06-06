@@ -1,6 +1,8 @@
 from math import log
 from numpy import zeros
 
+# Declarations
+#
 # Transition matrix
 trans_p = [[0.00, 0.50, 0.50, 0.00],
            [0.00, 0.50, 0.25, 0.25],
@@ -15,6 +17,7 @@ obs = '112122'
 V = zeros((len(states), len(obs)), dtype=int)
 bt = zeros((len(states), len(obs)), dtype=int)
 
+# Viterbi algorithm
 for i in range(len(states)):
     V[i][0] = log(emit_p[int(obs[0]) - 1][i + 1], 2) + log(trans_p[0][i + 1], 2)
 t = 1
@@ -33,6 +36,7 @@ for sym in obs[1:]:  # For each observation
             bt[i][t] = 2
     t += 1
 
+# Backtracing
 trace = ['']
 if V[0][len(states)] > V[1][len(states)]:
     best_index = [0]
@@ -54,6 +58,7 @@ for i in range(bt.shape[1] - 1, 0, -1):
             best_index[j] = bt[0][i - 1]
             best_index[j+1] = bt[1][i - 1]
 
+# Program output
 print('Optimal paths:')
 for i in trace:
     print('start-' + i + '-end')
